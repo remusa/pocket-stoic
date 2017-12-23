@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<database name="quotes">
+    <!-- Table wp_posts -->
+    <table name="wp_posts">
+        <column name="id">0</column>
+        <column name="quote">Hello world</column>
+        <column name="author">Anonymous</column>
+        <column name="favorite">0</column>
+    </table>
+</database>

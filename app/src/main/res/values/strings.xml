@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">PocketStoic</string>
+
+    <!-- REAL ADS -->
+    <!--<string name="banner_ad_unit_id">ca-app-pub-</string>-->
+    <!--<string name="interstitial_ad_unit_id">ca-app-pub-</string>-->
+
+    <!-- TEST ADS -->
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="action_share">Share</string>
+
+    <string name="splash_text">Pocket Stoic</string>
+    <string name="splash_text2">by DR Team</string>
+
+    <string name="show_quote">Hello World!</string>
+    <string name="show_author">Author</string>
+    <string name="text_copy">Copy</string>
+    <string name="text_favorites">Favorite</string>
+    <string name="text_share">Share</string>
+    <string name="text_previous">Previous</string>
+    <string name="text_next">Next</string>
+</resources>

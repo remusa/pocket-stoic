@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "482697713493",
+    "firebase_url": "https://pocketstoic-59b6d.firebaseio.com",
+    "project_id": "pocketstoic-59b6d",
+    "storage_bucket": "pocketstoic-59b6d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:482697713493:android:f0386b73c4ae3370",
+        "android_client_info": {
+          "package_name": "com.rdevlab.pocketstoic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "482697713493-5s9nlh6443iqh3edilm2itb744u0f6je.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rdevlab.pocketstoic",
+            "certificate_hash": "c1a59bb5b43194a449b3979e687d38f6ef36fe61"
+          }
+        },
+        {
+          "client_id": "482697713493-m31rqfku15t8sf9ps3a7fa1ocnd3v76p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxauw1vyry8-SEpCV_B5w67KRfj7kyTRc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "482697713493-m31rqfku15t8sf9ps3a7fa1ocnd3v76p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

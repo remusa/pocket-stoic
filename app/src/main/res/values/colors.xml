@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Red -->
+    <color name="colorPrimary">#be80ff</color>
+    <color name="colorPrimaryDark">#a855ff</color>
+    <color name="colorAccent">#ffffff</color>
+    <color name="colorPrimary_text">#be80ff</color>
+    <color name="colorSecondary_text">#a855ff</color>
+    <color name="colorIcons">#FFFFFF</color>
+    <color name="colorDivider">#BDBDBD</color>
+    <color name="colorWhite">#FFF</color>
+    <color name="colorBlack">#000</color>
+
+    <!-- Blue -->
+    <!--<color name="colorPrimary">#03A9F4</color>-->
+    <!--<color name="colorPrimaryDark">#039BE5</color>-->
+    <!--<color name="colorPrimaryDarker">#1976D2</color>-->
+    <!--<color name="colorAccent">#FFFFFF</color>-->
+    <!--<color name="primary">#03A9F4</color>-->
+    <!--<color name="primary_dark">#039BE5</color>-->
+    <!--<color name="primary_darker">#1976D2</color>-->
+    <!--<color name="accent">#FFFFFF</color>-->
+
+    <!-- Green -->
+    <!--<color name="colorPrimary">#2ecc71</color>-->
+    <!--<color name="colorPrimaryDark">#27ae60</color>-->
+    <!--<color name="colorPrimaryDarker">#00E676</color>-->
+    <!--<color name="colorAccent">#FFFFFF</color>-->
+    <!--<color name="primary">#2ecc71</color>-->
+    <!--<color name="primary_dark">#27ae60</color>-->
+    <!--<color name="primary_darker">#00E676</color>-->
+    <!--<color name="accent">#FFFFFF</color>-->
+
+    <!-- Red -->
+    <!--<color name="colorPrimary">#E43F3F</color>-->
+    <!--<color name="colorPrimaryDark">#E12929</color>-->
+    <!--<color name="colorAccent">#FFFFFF</color>-->
+    <!--<color name="primary">#E43F3F</color>-->
+    <!--<color name="primary_dark">#E12929</color>-->
+    <!--<color name="primary_darker">#CC1D1D</color>-->
+    <!--<color name="accent">#FFFFFF</color>-->
+
+    <!-- Purple -->
+    <!--<color name="colorPrimary">#be80ff</color>-->
+    <!--<color name="colorPrimaryDark">#a855ff</color>-->
+    <!--<color name="colorAccent">#ffffff</color>-->
+    <!--<color name="primary">#be80ff</color>-->
+    <!--<color name="primary_dark">#a855ff</color>-->
+    <!--<color name="primary_darker">#7e51c2</color>-->
+    <!--<color name="accent">#ffffff</color>-->
+</resources>
