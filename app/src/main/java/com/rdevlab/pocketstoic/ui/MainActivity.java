@@ -1,4 +1,4 @@
-package com.rdevlab.pocketstoic;
+package com.rdevlab.pocketstoic.ui;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,16 +12,18 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
-import com.rdevlab.pocketstoic.database.DataBaseHelper;
+import com.rdevlab.pocketstoic.R;
+import com.rdevlab.pocketstoic.database.AppDatabase;
 import com.rdevlab.pocketstoic.database.Quote;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -35,14 +37,33 @@ public class MainActivity extends AppCompatActivity
     private int allQuoteCounter;
     private ArrayList<String> authors;
     private String mActivityTitle;
-    private DataBaseHelper mDB;
+    //    private DataBaseHelper mDB;
     private int quoteCounter = 0;
-    private Quote shareQuote;
+//    private Quote shareQuote;
+
+    private AppDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        TextView quoteTextView = (TextView) findViewById(R.id.quote_text_view);
+        TextView authorTextView = (TextView) findViewById(R.id.author_text_view);
+
+        database = AppDatabase.getQuotesDatabase(this);
+//        AppDatabase.destroyInstance();
+
+//        Quote insertQuote = new Quote();
+//        insertQuote.setFavorite(1);
+//        insertQuote.setAuthor("Seneca");
+//        insertQuote.setQuoteText("This is a test");
+//        database.quotesModel().insertSingleQuote(insertQuote);
+
+        List<Quote> quotesList = database.quotesModel().getAllQuotes();
+        Log.d(TAG, "onCreate: " + quotesList.size());
+        quoteTextView.setText(quotesList.get(0).getQuoteText());
+        authorTextView.setText(quotesList.get(0).getAuthor());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -96,9 +117,9 @@ public class MainActivity extends AppCompatActivity
                     }
                 });
 
-        importDatabase();
-        this.allQuoteCounter = 0;
-        Bundle extras = getIntent().getExtras();
+//        importDatabase();
+//        this.allQuoteCounter = 0;
+//        Bundle extras = getIntent().getExtras();
 
         initBannerAd();
         initInterstitialAd();
@@ -184,13 +205,13 @@ public class MainActivity extends AppCompatActivity
         this.mAdCount = 0;
     }
 
-    private void importDatabase() {
-        this.mDB = new DataBaseHelper(getApplicationContext());
-        try {
-            this.mDB.createDataBase();
-        } catch (IOException e) {
-
-        }
-    }
+//    private void importDatabase() {
+//        this.mDB = new DataBaseHelper(getApplicationContext());
+//        try {
+//            this.mDB.createDataBase();
+//        } catch (IOException e) {
+//
+//        }
+//    }
 
 }

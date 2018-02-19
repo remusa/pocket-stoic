@@ -1,4 +1,4 @@
-package com.rdevlab.pocketstoic;
+package com.rdevlab.pocketstoic.ui;
 
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;

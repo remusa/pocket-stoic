@@ -1,8 +1,10 @@
-package com.rdevlab.pocketstoic;
+package com.rdevlab.pocketstoic.ui;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.rdevlab.pocketstoic.R;
 
 /**
  * @author rms

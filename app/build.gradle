@@ -16,6 +16,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 }
 
 dependencies {
@@ -31,6 +35,10 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation 'com.google.android.gms:play-services-ads:11.8.0'
+
+    implementation 'com.github.daolq3012:AssetSQLiteOpenHelper:1.0'
+    // Because AssetSQLiteOpenHelper releases are few and far between (persistence room version using in module is 1.0.0),
+    // it is recommended you also explicitly depend on Persistence Room's latest version for bug fixes and new features.
 
     implementation 'android.arch.persistence.room:runtime:1.0.0'
     annotationProcessor 'android.arch.persistence.room:compiler:1.0.0'

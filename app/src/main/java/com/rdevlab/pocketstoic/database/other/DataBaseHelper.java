@@ -1,4 +1,4 @@
-package com.rdevlab.pocketstoic.database;
+package com.rdevlab.pocketstoic.database.other;
 
 import android.content.Context;
 import android.database.SQLException;
@@ -16,7 +16,7 @@ import java.io.OutputStream;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
 
-    private static String DB_NAME = "quotes.db";
+    private static String DB_NAME = "databases/quotes.db";
     private static String DB_PATH = "/data/data/com.rdevlab.pocketstoic/databases/";
 
     private final Context mContext;

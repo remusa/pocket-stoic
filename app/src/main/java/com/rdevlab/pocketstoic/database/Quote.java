@@ -1,5 +1,6 @@
 package com.rdevlab.pocketstoic.database;
 
+import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
@@ -8,46 +9,54 @@ import android.support.annotation.NonNull;
  * Created by rms on 22/12/2017.
  */
 
+//class QuoteLanguage {
+//    @ColumnInfo(name = "quote_english")
+//    public String quoteEnglish;
+//}
+
 @Entity
 public class Quote {
 
+    @ColumnInfo(name = "_id")
+    private int uid;
+
     @NonNull
-    @PrimaryKey
+    @PrimaryKey//(autoGenerate = true)
+    @ColumnInfo(name = "ID")
     private int id;
-    private String quote;
+
+    @ColumnInfo(name = "QUOTES")
+    private String quoteText;
+
+    @ColumnInfo(name = "AUTHOR")
     private String author;
+
+    @ColumnInfo(name = "FAVORITE")
     private int favorite;
 
-    public Quote() {
+    public int getUid() {
+        return uid;
     }
 
-    public Quote(int id, String quote, String author, int favorite) {
-        this.id = id;
-        this.quote = quote;
-        this.author = author;
-        this.favorite = favorite;
+    public void setUid(int uid) {
+        this.uid = uid;
     }
 
-    public Quote(String quote, String author, int favorite) {
-        this.quote = quote;
-        this.author = author;
-        this.favorite = favorite;
-    }
-
+    @NonNull
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(@NonNull int id) {
         this.id = id;
     }
 
-    public String getQuote() {
-        return quote;
+    public int getFavorite() {
+        return favorite;
     }
 
-    public void setQuote(String quote) {
-        this.quote = quote;
+    public void setFavorite(int favorite) {
+        this.favorite = favorite;
     }
 
     public String getAuthor() {
@@ -58,11 +67,11 @@ public class Quote {
         this.author = author;
     }
 
-    public int getFavorite() {
-        return favorite;
+    public String getQuoteText() {
+        return quoteText;
     }
 
-    public void setFavorite(int favorite) {
-        this.favorite = favorite;
+    public void setQuoteText(String quoteText) {
+        this.quoteText = quoteText;
     }
 }
