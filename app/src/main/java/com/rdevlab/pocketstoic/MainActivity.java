@@ -17,17 +17,27 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
+import com.rdevlab.pocketstoic.database.DataBaseHelper;
+import com.rdevlab.pocketstoic.database.Quote;
 
-import java.util.List;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final String TAG = "MainActivity";
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     private int mAdCount = 0;
     private final int mNoClicks = 5;
     private InterstitialAd mInterstitialAd;
+
+    private int allQuoteCounter;
+    private ArrayList<String> authors;
+    private String mActivityTitle;
+    private DataBaseHelper mDB;
+    private int quoteCounter = 0;
+    private Quote shareQuote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,27 +90,18 @@ public class MainActivity extends AppCompatActivity
                             case R.id.action_share:
                                 Toast.makeText(MainActivity.this, "action_share", Toast.LENGTH_SHORT).show();
                                 break;
+                            default:
                         }
                         return true;
                     }
                 });
 
+        importDatabase();
+        this.allQuoteCounter = 0;
+        Bundle extras = getIntent().getExtras();
+
         initBannerAd();
         initInterstitialAd();
-
-//        DatabaseHandler db = new DatabaseHandler(this);
-//        Log.d("Insert: ", "Inserting ..");
-//        db.addQuote(new Quote("Hello world", "R", 0));
-//        db.addQuote(new Quote("Srinivas", "R", 1));
-//        db.addQuote(new Quote("Tommy", "R", 0));
-//        db.addQuote(new Quote("Karthik", "R", 1));
-//
-//        Log.d("Reading: ", "Reading all Quotes..");
-//        List<Quote> Quotes = db.getAllQuotes();
-//        for (Quote cn : Quotes) {
-//            String log = cn.getId() + " \t\t " + cn.getQuote() + " \t\t " + cn.getAuthor() + " \t\t " + cn.getFavorite();
-//            Log.d("quote: ", log);
-//        }
     }
 
     @Override
@@ -181,6 +182,15 @@ public class MainActivity extends AppCompatActivity
 
     private void setmAdCount() {
         this.mAdCount = 0;
+    }
+
+    private void importDatabase() {
+        this.mDB = new DataBaseHelper(getApplicationContext());
+        try {
+            this.mDB.createDataBase();
+        } catch (IOException e) {
+
+        }
     }
 
 }

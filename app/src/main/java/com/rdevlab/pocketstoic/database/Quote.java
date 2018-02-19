@@ -1,11 +1,18 @@
 package com.rdevlab.pocketstoic.database;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
 /**
  * Created by rms on 22/12/2017.
  */
 
-public class Quote extends SugarRecord {
+@Entity
+public class Quote {
 
+    @NonNull
+    @PrimaryKey
     private int id;
     private String quote;
     private String author;
