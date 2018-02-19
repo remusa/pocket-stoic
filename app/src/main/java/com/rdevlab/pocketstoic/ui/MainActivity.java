@@ -1,8 +1,6 @@
 package com.rdevlab.pocketstoic.ui;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -18,12 +16,11 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
+import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.rdevlab.pocketstoic.R;
 import com.rdevlab.pocketstoic.database.AppDatabase;
 import com.rdevlab.pocketstoic.database.Quote;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.rdevlab.pocketstoic.utils.GeneralUtils;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -34,100 +31,97 @@ public class MainActivity extends AppCompatActivity
     private final int mNoClicks = 5;
     private InterstitialAd mInterstitialAd;
 
-    private int allQuoteCounter;
-    private ArrayList<String> authors;
-    private String mActivityTitle;
-    //    private DataBaseHelper mDB;
-    private int quoteCounter = 0;
-//    private Quote shareQuote;
+    private TextView quoteTextView;
+    private TextView authorTextView;
 
-    private AppDatabase database;
+    private int allQuoteCounter;
+    private Quote currentQuote;
+
+    public static AppDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TextView quoteTextView = (TextView) findViewById(R.id.quote_text_view);
-        TextView authorTextView = (TextView) findViewById(R.id.author_text_view);
+        quoteTextView = findViewById(R.id.quote_text_view);
+        authorTextView = findViewById(R.id.author_text_view);
 
         database = AppDatabase.getQuotesDatabase(this);
-//        AppDatabase.destroyInstance();
 
-//        Quote insertQuote = new Quote();
-//        insertQuote.setFavorite(1);
-//        insertQuote.setAuthor("Seneca");
-//        insertQuote.setQuoteText("This is a test");
-//        database.quotesModel().insertSingleQuote(insertQuote);
+        allQuoteCounter = GeneralUtils.getAllQuotesCounter();
 
-        List<Quote> quotesList = database.quotesModel().getAllQuotes();
-        Log.d(TAG, "onCreate: " + quotesList.size());
-        quoteTextView.setText(quotesList.get(0).getQuoteText());
-        authorTextView.setText(quotesList.get(0).getAuthor());
+        currentQuote = GeneralUtils.getRandomQuote();
+        if (currentQuote != null) {
+            setCurrentQuote();
+        }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-        BottomNavigationViewHelper.removeShiftMode(bottomNavigationView);
+        BottomNavigationViewEx bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.enableAnimation(false);
+        bottomNavigationView.enableShiftingMode(false);
+        bottomNavigationView.enableItemShiftingMode(false);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
-                new BottomNavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-                        mAdCount++;
-                        Log.d("Interstitial", "Click: " + getmAdCount());
-                        if (getmAdCount() == mNoClicks) {
-                            if (mInterstitialAd.isLoaded()) {
-                                mInterstitialAd.show();
-                            } else {
-                                Log.d("Interstitial", "The interstitial hasn't loaded yet, click: " + getmAdCount());
-                            }
-                            callNewInterstitialAd();
-                            setmAdCount();
-                        }
-
-                        switch (item.getItemId()) {
-                            case R.id.action_copy:
-                                Toast.makeText(MainActivity.this, "Copied to clipboard", Toast.LENGTH_SHORT).show();
-                                break;
-                            case R.id.action_favorites:
-                                Toast.makeText(MainActivity.this, "Added to Favorites", Toast.LENGTH_SHORT).show();
-                                break;
-                            case R.id.action_previous:
-                                break;
-                            case R.id.action_next:
-                                break;
-                            case R.id.action_share:
-                                Toast.makeText(MainActivity.this, "action_share", Toast.LENGTH_SHORT).show();
-                                break;
-                            default:
-                        }
-                        return true;
-                    }
+                item -> {
+                    adCounter();
+                    buttonClicked(item.getItemId());
+                    return true;
                 });
-
-//        importDatabase();
-//        this.allQuoteCounter = 0;
-//        Bundle extras = getIntent().getExtras();
 
         initBannerAd();
         initInterstitialAd();
     }
 
+    private void setCurrentQuote() {
+        quoteTextView.setText(currentQuote.getQuoteText());
+        authorTextView.setText(currentQuote.getAuthor());
+    }
+
+    private void copyQuote() {
+        GeneralUtils.copyQuote(this, currentQuote);
+    }
+
+    private void shareQuote() {
+        GeneralUtils.shareQuote(this, currentQuote);
+    }
+
+    private void buttonClicked(int itemId) {
+        switch (itemId) {
+            case R.id.action_copy:
+                copyQuote();
+                break;
+            case R.id.action_favorites:
+                Toast.makeText(MainActivity.this, "Added to Favorites", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.action_previous:
+                Toast.makeText(MainActivity.this, "Previous", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.action_next:
+                currentQuote = GeneralUtils.getRandomQuote();
+                setCurrentQuote();
+                break;
+            case R.id.action_share:
+                shareQuote();
+                break;
+            default:
+        }
+    }
+
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -137,21 +131,17 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_share:
+                shareQuote();
+                return true;
+            default:
         }
 
         return super.onOptionsItemSelected(item);
@@ -160,30 +150,35 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
+        switch (item.getItemId()) {
+            case R.id.nav_camera:
+                // Handle the camera action
+                break;
+            case R.id.nav_gallery:
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+                break;
+            case R.id.nav_slideshow:
 
-        } else if (id == R.id.nav_slideshow) {
+                break;
+            case R.id.nav_manage:
 
-        } else if (id == R.id.nav_manage) {
+                break;
+            case R.id.nav_share:
 
-        } else if (id == R.id.nav_share) {
+                break;
+            case R.id.nav_send:
 
-        } else if (id == R.id.nav_send) {
-
+                break;
+            default:
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
     private void initBannerAd() {
-        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdView mAdView = findViewById(R.id.adView);
         AdRequest mAdRequest = new AdRequest.Builder().build();
         mAdView.loadAd(mAdRequest);
     }
@@ -191,6 +186,20 @@ public class MainActivity extends AppCompatActivity
     private void initInterstitialAd() {
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getString(R.string.interstitial_ad_unit_id));
+    }
+
+    private void adCounter() {
+        mAdCount++;
+        Log.d("Interstitial", "Click: " + getmAdCount());
+        if (getmAdCount() == mNoClicks) {
+            if (mInterstitialAd.isLoaded()) {
+                mInterstitialAd.show();
+            } else {
+                Log.d("Interstitial", "The interstitial hasn't loaded yet, click: " + getmAdCount());
+            }
+            callNewInterstitialAd();
+            setmAdCount();
+        }
     }
 
     public void callNewInterstitialAd() {
@@ -204,14 +213,5 @@ public class MainActivity extends AppCompatActivity
     private void setmAdCount() {
         this.mAdCount = 0;
     }
-
-//    private void importDatabase() {
-//        this.mDB = new DataBaseHelper(getApplicationContext());
-//        try {
-//            this.mDB.createDataBase();
-//        } catch (IOException e) {
-//
-//        }
-//    }
 
 }

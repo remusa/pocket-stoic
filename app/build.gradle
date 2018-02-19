@@ -36,6 +36,9 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation 'com.google.android.gms:play-services-ads:11.8.0'
 
+    compile 'com.github.ittianyu:BottomNavigationViewEx:1.2.4'
+    compile "com.android.support:design:26.1.0"
+
     implementation 'com.github.daolq3012:AssetSQLiteOpenHelper:1.0'
     // Because AssetSQLiteOpenHelper releases are few and far between (persistence room version using in module is 1.0.0),
     // it is recommended you also explicitly depend on Persistence Room's latest version for bug fixes and new features.

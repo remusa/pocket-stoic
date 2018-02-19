@@ -33,6 +33,9 @@ public interface QuotesDao {
     @Query("SELECT * FROM Quote")
     List<Quote> getAllQuotes();
 
+    @Query("SELECT * FROM Quote WHERE id = :id")
+    Quote getSingleQuote(int id);
+
     @Query("SELECT * FROM Quote WHERE favorite == 1")
     List<Quote> getAllFavoriteQuotes();
 
