@@ -42,7 +42,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
 //    static final Migration MIGRATION_2_3 = new Migration(2,3) {
 //        @Override
-//        public void migrate(SupportSQLiteDatabase database) {
+//        public void migrate(SupportSQLiteDatabase mDatabase) {
 //            // Since we didn't alter the table, there's nothing else to do here.
 //        }
 //    };

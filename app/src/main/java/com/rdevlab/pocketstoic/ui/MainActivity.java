@@ -7,7 +7,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -22,6 +21,9 @@ import com.rdevlab.pocketstoic.database.AppDatabase;
 import com.rdevlab.pocketstoic.database.Quote;
 import com.rdevlab.pocketstoic.utils.GeneralUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -31,29 +33,33 @@ public class MainActivity extends AppCompatActivity
     private final int mNoClicks = 5;
     private InterstitialAd mInterstitialAd;
 
-    private TextView quoteTextView;
-    private TextView authorTextView;
+    private TextView mQuoteTextView;
+    private TextView mAuthorTextView;
 
-    private int allQuoteCounter;
-    private Quote currentQuote;
+    private int mAllQuoteCounter;
+    private int mCurrentIndex = 0;
+    private List<Quote> mCurrentQuotesList;
+    private Quote mCurrentQuote;
 
-    public static AppDatabase database;
+    public static AppDatabase mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        quoteTextView = findViewById(R.id.quote_text_view);
-        authorTextView = findViewById(R.id.author_text_view);
+        mQuoteTextView = findViewById(R.id.quote_text_view);
+        mAuthorTextView = findViewById(R.id.author_text_view);
 
-        database = AppDatabase.getQuotesDatabase(this);
+        mDatabase = AppDatabase.getQuotesDatabase(this);
 
-        allQuoteCounter = GeneralUtils.getAllQuotesCounter();
+        mAllQuoteCounter = GeneralUtils.getAllQuotesCounter();
+        mCurrentQuotesList = new ArrayList<>();
 
-        currentQuote = GeneralUtils.getRandomQuote();
-        if (currentQuote != null) {
-            setCurrentQuote();
+        mCurrentQuote = GeneralUtils.getRandomQuote();
+        mCurrentQuotesList.add(mCurrentQuote);
+        if (mCurrentQuote != null) {
+            showQuote(mCurrentQuote);
         }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -84,17 +90,42 @@ public class MainActivity extends AppCompatActivity
         initInterstitialAd();
     }
 
-    private void setCurrentQuote() {
-        quoteTextView.setText(currentQuote.getQuoteText());
-        authorTextView.setText(currentQuote.getAuthor());
+    private void showQuote(Quote quote) {
+        mQuoteTextView.setText(quote.getQuoteText());
+        mAuthorTextView.setText(quote.getAuthor());
     }
 
     private void copyQuote() {
-        GeneralUtils.copyQuote(this, currentQuote);
+        GeneralUtils.copyQuote(this, mCurrentQuote);
     }
 
     private void shareQuote() {
-        GeneralUtils.shareQuote(this, currentQuote);
+        GeneralUtils.shareQuote(this, mCurrentQuote);
+    }
+
+    private void setFavorite() {
+        GeneralUtils.addtoFavorite(this, mCurrentQuote);
+    }
+
+    private void previousQuote() {
+        if (mCurrentQuotesList.size() > 0) {
+            mCurrentIndex--;
+            if (mCurrentIndex >= 0) {
+                showQuote(mCurrentQuotesList.get(mCurrentIndex));
+                return;
+            }
+            mCurrentIndex = 0;
+            Toast.makeText(this, "No more previous quotes", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void nextQuote() {
+        if (mCurrentQuotesList != null) {
+            mCurrentQuote = GeneralUtils.getRandomQuote();
+            mCurrentQuotesList.add(mCurrentQuote);
+            showQuote(mCurrentQuote);
+            mCurrentIndex++;
+        }
     }
 
     private void buttonClicked(int itemId) {
@@ -103,14 +134,13 @@ public class MainActivity extends AppCompatActivity
                 copyQuote();
                 break;
             case R.id.action_favorites:
-                Toast.makeText(MainActivity.this, "Added to Favorites", Toast.LENGTH_SHORT).show();
+                setFavorite();
                 break;
             case R.id.action_previous:
-                Toast.makeText(MainActivity.this, "Previous", Toast.LENGTH_SHORT).show();
+                previousQuote();
                 break;
             case R.id.action_next:
-                currentQuote = GeneralUtils.getRandomQuote();
-                setCurrentQuote();
+                nextQuote();
                 break;
             case R.id.action_share:
                 shareQuote();
@@ -190,12 +220,12 @@ public class MainActivity extends AppCompatActivity
 
     private void adCounter() {
         mAdCount++;
-        Log.d("Interstitial", "Click: " + getmAdCount());
+//        Log.d("Interstitial", "Click: " + getmAdCount());
         if (getmAdCount() == mNoClicks) {
             if (mInterstitialAd.isLoaded()) {
                 mInterstitialAd.show();
             } else {
-                Log.d("Interstitial", "The interstitial hasn't loaded yet, click: " + getmAdCount());
+//                Log.d("Interstitial", "The interstitial hasn't loaded yet, click: " + getmAdCount());
             }
             callNewInterstitialAd();
             setmAdCount();

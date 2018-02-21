@@ -30,6 +30,9 @@ public interface QuotesDao {
     @Delete
     void deleteAllQuotes(Quote... quote);
 
+    @Query("UPDATE Quote SET FAVORITE = :isFavorite WHERE id = :id")
+    void updateFavorite(int id, int isFavorite);
+
     @Query("SELECT * FROM Quote")
     List<Quote> getAllQuotes();
 

@@ -12,7 +12,7 @@ import com.rdevlab.pocketstoic.database.Quote;
 import java.util.Random;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
-import static com.rdevlab.pocketstoic.ui.MainActivity.database;
+import static com.rdevlab.pocketstoic.ui.MainActivity.mDatabase;
 
 /**
  * Created by rms on 19/02/2018.
@@ -23,10 +23,10 @@ public class GeneralUtils {
     private static final String TAG = GeneralUtils.class.getSimpleName();
 
     public static Quote getRandomQuote() {
-        int total = database.quotesModel().getAllQuotes().size();
+        int total = mDatabase.quotesModel().getAllQuotes().size();
         Random random = new Random();
         try {
-            Quote randomQuote = database.quotesModel().getSingleQuote(
+            Quote randomQuote = mDatabase.quotesModel().getSingleQuote(
                     random.nextInt((total) + 1));
             if (randomQuote != null) {
                 return randomQuote;
@@ -34,11 +34,11 @@ public class GeneralUtils {
         } catch (Exception e) {
             Log.e(TAG, "getRandomQuote: ", e);
         }
-        return database.quotesModel().getSingleQuote(100);
+        return mDatabase.quotesModel().getSingleQuote(100);
     }
 
     public static int getAllQuotesCounter() {
-        return database.quotesModel().getAllQuotes().size();
+        return mDatabase.quotesModel().getAllQuotes().size();
     }
 
     public static void copyQuote(Context context, Quote quote) {
@@ -50,11 +50,21 @@ public class GeneralUtils {
     }
 
     public static void shareQuote(Context context, Quote quote) {
-        String currentQuote = quote.getQuoteText() + " by " + quote.getAuthor();
+        String shareQuote = quote.getQuoteText() + " by " + quote.getAuthor();
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
-        shareIntent.putExtra("android.intent.extra.TEXT", currentQuote);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, shareQuote);
         context.startActivity(shareIntent);
+    }
+
+    public static void addtoFavorite(Context context, Quote quote) {
+        if (quote.getFavorite() == 0) {
+            mDatabase.quotesModel().updateFavorite(quote.getId(), 1);
+            Toast.makeText(context, "Added to Favorites", Toast.LENGTH_SHORT).show();
+        } else {
+            mDatabase.quotesModel().updateFavorite(quote.getId(), 0);
+            Toast.makeText(context, "Removed from Favorites", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }
