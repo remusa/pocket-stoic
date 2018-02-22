@@ -32,6 +32,7 @@ public abstract class AppDatabase extends RoomDatabase {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                     AppDatabase.class,
                     DATABASE_NAME)
+                    // TODO: remove allowMainThreadQueries()
                     .allowMainThreadQueries() //remove
                     .openHelperFactory(new AssetSQLiteOpenHelperFactory())
 //                    .fallbackToDestructiveMigration()

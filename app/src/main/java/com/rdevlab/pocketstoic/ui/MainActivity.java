@@ -1,5 +1,6 @@
 package com.rdevlab.pocketstoic.ui;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.design.internal.BottomNavigationItemView;
@@ -9,6 +10,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -213,12 +215,15 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        Intent intent = new Intent(getApplicationContext(), QuotesActivity.class);
         switch (item.getItemId()) {
             case R.id.nav_camera:
-                // Handle the camera action
+                intent.putExtra("type", "all");
+                startActivity(intent);
                 break;
             case R.id.nav_gallery:
-
+                intent.putExtra("type", "favorites");
+                startActivity(intent);
                 break;
             case R.id.nav_slideshow:
 

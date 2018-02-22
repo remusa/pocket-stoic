@@ -37,6 +37,6 @@ public interface QuotesDao {
     Quote getSingleQuote(int id);
 
     @Query("SELECT * FROM Quote WHERE FAVORITE == 1")
-    List<Quote> getAllFavoriteQuotes();
+    List<Quote> getFavoriteQuotes();
 
 }

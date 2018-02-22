@@ -36,15 +36,22 @@ dependencies {
     implementation 'com.google.android.gms:play-services-ads:11.8.0'
 
     compile 'com.github.ittianyu:BottomNavigationViewEx:1.2.4'
-    compile "com.android.support:design:26.1.0"
+    compile "com.android.support:design:27.0.2"
 
     implementation 'com.github.daolq3012:AssetSQLiteOpenHelper:1.0'
     // Because AssetSQLiteOpenHelper releases are few and far between (persistence room version using in module is 1.0.0),
     // it is recommended you also explicitly depend on Persistence Room's latest version for bug fixes and new features.
 
+    // For Room
     implementation 'android.arch.persistence.room:runtime:1.0.0'
     annotationProcessor 'android.arch.persistence.room:compiler:1.0.0'
+
+    // For lifecycle and LiveData and ViewModel
+    compile 'android.arch.lifecycle:runtime:1.1.0'
+    compile 'android.arch.lifecycle:extensions:1.1.0'
+    annotationProcessor "android.arch.lifecycle:compiler:1.1.0"
 }
+
 
 
 
