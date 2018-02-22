@@ -1,7 +1,10 @@
 package com.rdevlab.pocketstoic.ui;
 
+import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -35,10 +38,12 @@ public class MainActivity extends AppCompatActivity
 
     private TextView mQuoteTextView;
     private TextView mAuthorTextView;
+    private BottomNavigationItemView mFavoriteItem;
 
-    private int mAllQuoteCounter;
+    private int mTotalQuotesCounter;
     private int mCurrentIndex = 0;
     private List<Quote> mCurrentQuotesList;
+    private List<Integer> mShownQuotesIdList;
     private Quote mCurrentQuote;
 
     public static AppDatabase mDatabase;
@@ -50,16 +55,19 @@ public class MainActivity extends AppCompatActivity
 
         mQuoteTextView = findViewById(R.id.quote_text_view);
         mAuthorTextView = findViewById(R.id.author_text_view);
+        mFavoriteItem = findViewById(R.id.action_favorites);
 
         mDatabase = AppDatabase.getQuotesDatabase(this);
 
-        mAllQuoteCounter = GeneralUtils.getAllQuotesCounter();
+        mTotalQuotesCounter = GeneralUtils.getAllQuotesCounter();
         mCurrentQuotesList = new ArrayList<>();
+        mShownQuotesIdList = new ArrayList<>();
 
         mCurrentQuote = GeneralUtils.getRandomQuote();
         mCurrentQuotesList.add(mCurrentQuote);
         if (mCurrentQuote != null) {
             showQuote(mCurrentQuote);
+            checkFavorite(mCurrentQuote);
         }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -93,6 +101,7 @@ public class MainActivity extends AppCompatActivity
     private void showQuote(Quote quote) {
         mQuoteTextView.setText(quote.getQuoteText());
         mAuthorTextView.setText(quote.getAuthor());
+        checkFavorite(quote);
     }
 
     private void copyQuote() {
@@ -104,7 +113,19 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setFavorite() {
-        GeneralUtils.addtoFavorite(this, mCurrentQuote);
+        GeneralUtils.setFavorite(this, mCurrentQuote);
+        checkFavorite(mCurrentQuote);
+    }
+
+    private void checkFavorite(Quote quote) {
+        if (quote.getFavorite() == 1) {
+//            mFavoriteItem.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_favorite_black_24dp));
+            mFavoriteItem.setIconTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorRed)));
+        } else if (quote.getFavorite() == 0) {
+//            mFavoriteItem.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_favorite_red_24dp));
+//            mFavoriteItem.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_content_copy_black_24dp));
+            mFavoriteItem.setIconTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorWhite)));
+        }
     }
 
     private void previousQuote() {
@@ -121,11 +142,23 @@ public class MainActivity extends AppCompatActivity
 
     private void nextQuote() {
         if (mCurrentQuotesList != null) {
-            mCurrentQuote = GeneralUtils.getRandomQuote();
+            mCurrentQuote = getNoneRepeatQuote();
             mCurrentQuotesList.add(mCurrentQuote);
             showQuote(mCurrentQuote);
             mCurrentIndex++;
+            mShownQuotesIdList.add(mCurrentQuote.getId());
         }
+    }
+
+    private Quote getNoneRepeatQuote() {
+        Quote randomQuote = GeneralUtils.getRandomQuote();
+        if (mShownQuotesIdList.size() >= mTotalQuotesCounter) {
+            mShownQuotesIdList.clear();
+            getNoneRepeatQuote();
+        } else if (mShownQuotesIdList.contains(randomQuote.getId())) {
+            getNoneRepeatQuote();
+        }
+        return randomQuote;
     }
 
     private void buttonClicked(int itemId) {

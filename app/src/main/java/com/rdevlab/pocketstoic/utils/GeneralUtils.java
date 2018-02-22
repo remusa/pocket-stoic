@@ -57,13 +57,17 @@ public class GeneralUtils {
         context.startActivity(shareIntent);
     }
 
-    public static void addtoFavorite(Context context, Quote quote) {
-        if (quote.getFavorite() == 0) {
-            mDatabase.quotesModel().updateFavorite(quote.getId(), 1);
-            Toast.makeText(context, "Added to Favorites", Toast.LENGTH_SHORT).show();
-        } else {
-            mDatabase.quotesModel().updateFavorite(quote.getId(), 0);
-            Toast.makeText(context, "Removed from Favorites", Toast.LENGTH_SHORT).show();
+    public static void setFavorite(Context context, Quote quote) {
+        if (quote != null) {
+            if (quote.getFavorite() == 0) {
+                quote.setFavorite(1);
+                mDatabase.quotesModel().updateSingleQuote(quote);
+                Toast.makeText(context, "Added to Favorites", Toast.LENGTH_SHORT).show();
+            } else {
+                quote.setFavorite(0);
+                mDatabase.quotesModel().updateSingleQuote(quote);
+                Toast.makeText(context, "Removed from Favorites", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

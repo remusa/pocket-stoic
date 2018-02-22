@@ -11,6 +11,7 @@
     <color name="colorDivider">#BDBDBD</color>
     <color name="colorWhite">#FFF</color>
     <color name="colorBlack">#000</color>
+    <color name="colorRed">#FF0000</color>
 
     <!-- Blue -->
     <!--<color name="colorPrimary">#03A9F4</color>-->
