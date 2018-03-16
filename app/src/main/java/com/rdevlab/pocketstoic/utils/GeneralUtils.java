@@ -46,7 +46,7 @@ public class GeneralUtils {
         assert clipboard != null;
         clipboard.setPrimaryClip(ClipData.newPlainText("Pocket Stoic Quote",
                 quote.getQuoteText() + " - " + quote.getAuthor()));
-        Toast.makeText(context, "Quote copied to clipboard", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Copied to clipboard", Toast.LENGTH_SHORT).show();
     }
 
     public static void shareQuote(Context context, Quote quote) {
@@ -62,11 +62,9 @@ public class GeneralUtils {
             if (quote.getFavorite() == 0) {
                 quote.setFavorite(1);
                 mDatabase.quotesModel().updateSingleQuote(quote);
-                Toast.makeText(context, "Added to Favorites", Toast.LENGTH_SHORT).show();
             } else {
                 quote.setFavorite(0);
                 mDatabase.quotesModel().updateSingleQuote(quote);
-                Toast.makeText(context, "Removed from Favorites", Toast.LENGTH_SHORT).show();
             }
         }
     }
