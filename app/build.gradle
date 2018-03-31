@@ -24,19 +24,19 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support:design:26.1.0'
+    implementation 'com.android.support:appcompat-v7:27.1.0'
+    implementation 'com.android.support:design:27.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    implementation 'com.google.firebase:firebase-crash:11.8.0'
-    implementation 'com.google.firebase:firebase-ads:11.8.0'
-    compile 'com.android.support:design:26.1.0'
+    implementation 'com.google.firebase:firebase-crash:12.0.0'
+    implementation 'com.google.firebase:firebase-ads:12.0.0'
+    implementation 'com.android.support:design:27.1.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    implementation 'com.google.android.gms:play-services-ads:11.8.0'
+    implementation 'com.google.android.gms:play-services-ads:12.0.0'
 
-    compile 'com.github.ittianyu:BottomNavigationViewEx:1.2.4'
-    compile "com.android.support:design:27.0.2"
+    implementation 'com.github.ittianyu:BottomNavigationViewEx:1.2.4'
+    implementation "com.android.support:design:27.1.0"
 
     implementation 'com.github.daolq3012:AssetSQLiteOpenHelper:1.0'
     // Because AssetSQLiteOpenHelper releases are few and far between (persistence room version using in module is 1.0.0),
@@ -47,9 +47,9 @@ dependencies {
     annotationProcessor 'android.arch.persistence.room:compiler:1.0.0'
 
     // For lifecycle and LiveData and ViewModel
-    compile 'android.arch.lifecycle:runtime:1.1.0'
-    compile 'android.arch.lifecycle:extensions:1.1.0'
-    annotationProcessor "android.arch.lifecycle:compiler:1.1.0"
+    implementation 'android.arch.lifecycle:runtime:1.1.1'
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
+    annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
 }
 
 
